@@ -609,6 +609,7 @@ function gameOver(message) {
 const attributions = document.getElementById("attributions");
 console.log(attributions);
 attributions.onclick = function() {
+    messageText.innerText = "";
     attributionsList.style.display = "block";
     messageModal.style.display = "block";
     modalImg["src"] = "";
