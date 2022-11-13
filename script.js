@@ -211,6 +211,8 @@ const itemPrompt = document.getElementById("item-prompt");
 const itemInput = document.getElementById("input-item");
 const enterItem = document.getElementById("enter-item");
 
+const attributionsList = document.getElementById("attributions-list");
+
 const roomName = document.getElementById("room-name");
 const roomText = document.getElementById("room-description");
 const roomConnections = document.querySelectorAll(".direction");
@@ -557,7 +559,7 @@ function doBattle(character, spell) {
 }
 
 function alertMessage(message, imageLink) {
-    attributionsList.style.display = "block";
+    attributionsList.style.display = "none";
     messageText.innerText = message;
     modalImg["src"] = imageLink;
     messageModal.style.display = "block";
@@ -607,7 +609,6 @@ function gameOver(message) {
 const attributions = document.getElementById("attributions");
 console.log(attributions);
 attributions.onclick = function() {
-    const attributionsList = document.getElementById("attributions-list");
     attributionsList.style.display = "block";
     messageModal.style.display = "block";
     modalImg["src"] = "";
