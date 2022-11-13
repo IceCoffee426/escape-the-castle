@@ -614,3 +614,12 @@ attributions.onclick = function() {
     modalImg["src"] = "";
     closeButton.focus();
 }
+
+// List of things to do:
+// - instructions button and modal
+// - make images of things part of the object
+// - make modals cleaner and more interesting with animations
+// - have an intro animation
+// - click buttons to take actions
+// - add sounds or music or backgrounds
+// - mobile version
