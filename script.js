@@ -557,6 +557,7 @@ function doBattle(character, spell) {
 }
 
 function alertMessage(message, imageLink) {
+    attributionsList.style.display = "block";
     messageText.innerText = message;
     modalImg["src"] = imageLink;
     messageModal.style.display = "block";
