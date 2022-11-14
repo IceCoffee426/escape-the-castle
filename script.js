@@ -353,7 +353,7 @@ function submitAction() {
             setRoom(room);
         }        
         else {
-            gameOver(`As you try to escape, ${character.name} chases after you and attacks and kills you. Your journey ends in defeat.`);
+            gameOver(`As you try to escape, ${character.name} chases after you and attacks you. Your journey ends in defeat.`);
         }
     }
 
@@ -364,7 +364,6 @@ function submitAction() {
     else if (action === "get") {
         if (item && safeToLeave) {
             getItem(item);
-            room.item = null;
         }
         else if (item && !safeToLeave) {
             gameOver(`As you reach over to take the ${item.name}, ${character.name} takes advantage of your foolishness and attacks you. Your journey ends in failure.`);
@@ -373,14 +372,17 @@ function submitAction() {
     }
 
     else if (action === "fight") {
-        if (character.type === "enemy" || character.type === "boss") {   
+        if (!character || character.type === "friend") {
+            alertMessage("There are no enemies here.", "./images/invalid.png");
+        }
+        else if (character.type === "enemy" || character.type === "boss") {   
             if (!(inventory.innerText.includes("staff"))) {
                 gameOver(`You have no weapon to fight with. ${character.name} attacks you in retaliation and kills you. Your journey ends in defeat.`);
                 return;
             }
-            inputSpell();    
+            inputSpell();
         }
-        else alertMessage("There are no enemies here.", "./images/invalid.png");
+        else alertMessage("An error occured. Try a different action.", "./images/invalid.png");
     }
 
     else if (action === "talk") {      
@@ -389,17 +391,21 @@ function submitAction() {
     }
 
     else if (action === "give") {    
-        if (numberOfItems === 0) alertMessage("You don't have any items.", "./images/invalid.png");
-        else if (character.type === "enemy") {
-            if (!character.awake) {
-                alertMessage(`${character.name} is asleep. It would be unwise to awaken him.`, character.image);
-            }
-            inputModal.style.display = "none";
+        if (!character) alertMessage("There is no one here.", "./images/invalid.png");
+        else if (numberOfItems === 0) alertMessage("You don't have any items.", "./images/invalid.png");
+        else {
+            if (character.type === "enemy") {
+                if(!character.awake) {
+                    alertMessage(`${character.name} is asleep. It would be unwise to awaken him.`, character.image);
+                    return;
+                }
+                inputModal.style.display = "none";
             giveBox.style.display = "none";
             gameOver(`${character.name} wants nothing from you. ${character.name} takes advantage of your moment of hesitation and attacks you. Your journey ends in defeat.`);
+            return;
+            }
+            inputItem();
         }
-        else if (character) inputItem();
-        else alertMessage("There is no one here.", "./images/invalid.png");
     }
 
     else if (action === "") return;
@@ -423,7 +429,7 @@ function setRoom(room) {
     img.style.width = "auto";
     roomImg.appendChild(img);
     
-    roomConnections.forEach (node => {
+    roomConnections.forEach(node => {
         const direction = node.dataset.direction;
         const validDirections = Array.from(room.linkedRooms.keys());
         const requiredRoom = room.linkedRooms.get(direction);
@@ -470,6 +476,7 @@ function getItem(item) {
     inventory.innerText = `Inventory: ${itemList.join(", ")}`;
     itemText.innerText = "";
     numberOfItems += 1;
+    room.item = null;
     alertMessage(`The ${item.name} was added to your inventory.`, item.image);
     closeButton.focus();
     const itemImg = document.getElementById("item-image");
@@ -489,8 +496,11 @@ function talkTo(character) {
     if (character.type === "friend") {
         alertMessage(`${character.name} says: "${character.dialogue}"`, character.image);
     }
-    else if (character.type === "enemy" || character.type === "boss") {
+    else if (character.type === "enemy") {
         gameOver(`${character.name} says: "${character.dialogue}" ${character.name} has no further desire to converse and attacks you. Your journey ends in defeat.`);
+    }
+    else if (character.type === "boss") {
+        gameOver(`${character.name} roars and and attacks you. Your journey ends in defeat.`);
     }
     else alertMessage("An error occured. Try a different action.", "./images/invalid.png");
 }
@@ -501,11 +511,13 @@ function giveItem(character, gift) {
         inputModal.style.display = "none";
         giveBox.style.display = "none";
         alertMessage("You don't have that item.", "./images/invalid.png");
+        return;
     }
     else if (character.type === "friend" && gift !== character.gift.name) {
         inputModal.style.display = "none";
         giveBox.style.display = "none";
         alertMessage(`${character.name} has no use for that item.`, "./images/invalid.png");
+        return;
     }
     else if (character.type === "friend" && gift === character.gift.name) {
         inputModal.style.display = "none";
@@ -515,7 +527,8 @@ function giveItem(character, gift) {
     else if (character.type === "boss" && gift !== character.controlItem.name) {
         inputModal.style.display = "none";
         giveBox.style.display = "none";
-        gameOver(`${character.name} devours the ${gift.name} and you. Your journey ends in defeat.`);
+        gameOver(`${character.name} devours the ${gift} and you. Your journey ends in defeat.`);
+        return;
     }
     else if (character.type === "boss" && gift === character.controlItem.name) {
         inputModal.style.display = "none";
@@ -523,12 +536,16 @@ function giveItem(character, gift) {
         img = document.getElementById("end");
         end["src"] = throneroom.image;
         gameOver(`${character.name} sees the enchanted crown and cowers before you. You have tamed the dragon and it will obey your commands. You take over the kingdom as the rightful ruler. Your journey ends in victory.`)
+        return;
     }
-    else alertMessage("An error occured. Try a different action.", "./images/invalid.png");
+    else {
+        alertMessage("An error occured. Try a different action.", "./images/invalid.png");
+        return;
+    }
+    removeItem(gift);
 }
 
 function doBattle(character, spell) {
-    const gift = itemInput.value.toLowerCase().trim();
     if (character.type === "boss") {
         inputModal.style.display = "none";
         castBox.style.display = "none";
@@ -544,9 +561,9 @@ function doBattle(character, spell) {
         const charImg = document.getElementById("char-image");
         charImg.innerText = "";
         characterText.innerText = "";
-        room.character = null;
         inputModal.style.display = "none";
         castBox.style.display = "none";
+        room.character = null;
         alertMessage(`You have defeated ${character.name} with your ${spell} spell.`, `./images/${spell}.png`);
     }
     else if (spells.innerText.includes(spell) && spell !== character.weakness) {
@@ -564,6 +581,7 @@ function alertMessage(message, imageLink) {
     modalImg["src"] = imageLink;
     messageModal.style.display = "block";
     closeButton.focus();
+    actionBox.value = "";
 }
 
 function inputSpell() {
@@ -574,7 +592,7 @@ function inputSpell() {
     spellInput.focus();
     enterSpell.onclick = function() {
         const spell = spellInput.value.toLowerCase().trim();
-        doBattle(room.character, spell);
+        if (room.character) doBattle(room.character, spell);
         };
     spellInput.addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
@@ -591,13 +609,22 @@ function inputItem() {
     itemInput.focus();
     enterItem.onclick = function() {
         const gift = itemInput.value.toLowerCase().trim();
-        giveItem(room.character, gift);
+        if (room.character) giveItem(room.character, gift);
         };
     itemInput.addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
             enterItem.click();
         }
     });
+}
+
+function removeItem(trash) {
+    for (i = 0; i < itemList.length; i++) {
+        if (itemList[i] === trash) {
+            itemList.splice(i);
+            inventory.innerText = `Inventory: ${itemList.join(", ")}`;
+        }
+    }
 }
 
 function gameOver(message) {
@@ -607,7 +634,7 @@ function gameOver(message) {
 }
 
 const attributions = document.getElementById("attributions");
-console.log(attributions);
+
 attributions.onclick = function() {
     messageText.innerText = "";
     attributionsList.style.display = "block";
