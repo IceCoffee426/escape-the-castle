@@ -16,6 +16,9 @@ To play the game, type any of the valid actions in any case.
 
 ## Version History
 
+* 1.0.1 (20/11/2022)
+    * Added instructions.
+
 * 1.0 (13/11/2022)
     * Initial Release
 
