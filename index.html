@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escape the Castle!</title>
-    <link rel="icon" type="image/x-icon" href=".\images\castle.png">
+    <link rel="icon" type="image/x-icon" href="./images/castle.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=MedievalSharp">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -13,7 +13,7 @@
 <body>
     <div class="game-container">
         <div class="header">
-            <div><img src=".\images\castle.png"></div>
+            <div><img src="./images/castle.png"></div>
             <div class="game-title">
                 <h1>Escape the Castle</h1>
                 <h2>A text RPG by IceCoffee426</h2>
@@ -24,10 +24,10 @@
             <div id="room-name"></div>
             <div id="room-description"></div>
             <div id="room-connections">
-                <div class="direction" data-direction="north"><img src=".\images\arrow-up.svg" height="40px" width="auto"><p id="north"></p></div>
-                <div class="direction" data-direction="east"><img src=".\images\arrow-right.svg" height="40px" width="auto"><p id="east"></p></div>
-                <div class="direction" data-direction="west"><img src=".\images\arrow-left.svg" height="40px" width="auto"><p id="west"></p></div>
-                <div class="direction" data-direction="south"><img src=".\images\arrow-down.svg" height="40px" width="auto"><p id="south"></p></div>
+                <div class="direction" data-direction="north"><img src="./images/arrow-up.svg" height="40px" width="auto"><p id="north"></p></div>
+                <div class="direction" data-direction="east"><img src="./images/arrow-right.svg" height="40px" width="auto"><p id="east"></p></div>
+                <div class="direction" data-direction="west"><img src="./images/arrow-left.svg" height="40px" width="auto"><p id="west"></p></div>
+                <div class="direction" data-direction="south"><img src="./images/arrow-down.svg" height="40px" width="auto"><p id="south"></p></div>
             </div>
             <div id="character"></div>
             <div id="char-image"></div>
@@ -52,6 +52,7 @@
     <div id="message-modal" class="modal">
         <div class="modal-content">
             <ul id="attributions-list">
+                <h2>Image attributions</h2>
                 <li>Candlestick icon created by <a href="https://www.flaticon.com/free-icons/candlestick" title="candlestick icons">Icongeek26</a> at Flaticon</li>
                 <li>Chandelier icon created by <a href="https://www.flaticon.com/free-icons/chandelier" title="chandelier icons">monkik</a> at Flaticon</li>
                 <li>Character icons created by <a href="https://www.flaticon.com/free-icons/medieval" title="medieval icons">max.icons</a> at Flaticon</li>
@@ -62,6 +63,16 @@
                 <li>Sorcerer icon created by <a href="https://www.flaticon.com/free-icons/sorcerer" title="sorcerer icons"> winnievinzence</a> at Flaticon</li>
                 <li>All other icons created by  <a href="https://www.flaticon.com/free-icons/crown" title="crown icons">Freepik</a> at Flaticon</li>
             </ul>
+            <ul id="instructions-list">
+                <h2>How to play</h2>
+                <li>Can you escape the castle after having been locked in the dungeon?</li>
+                <li>&nbsp;</li>
+                <li>Type one word from the "valid actions" list to take an action.</li>
+                <li>&nbsp;</li>
+                <li>If prompted to enter a spell or item, copy the name from your inventory or spells list.</li>
+                <li>&nbsp;</li>
+                <li>Good luck!</li>
+            </ul>
             <p id="message"></p>
             <img src="" id="modal-image">
             <div class="modal-footer"><button id="closebtn" class="modal-button">Close</button></div>
@@ -71,7 +82,7 @@
         <div class="modal-content">
             <div id="cast">
                 <p id="spell-prompt">Choose a spell to cast:</p>
-                <div><img src="./images/cast.png" height = "125" width = auto></div>
+                <div><img src="./images/cast.png" height="125" width="auto"></div>
                 <div class="modal-footer">
                     <input type="text" id="input-spell" autocomplete="off">
                     <button id="enter-spell">Submit</button>
@@ -79,7 +90,7 @@
             </div>
             <div id="give">
                 <p id="item-prompt">Choose an item to give:</p>
-                <div><img src="./images/give.png" height = "125" width = auto></div>
+                <div><img src="./images/give.png" height="125" width=auto></div>
                 <div class="modal-footer">
                     <input type="text" id="input-item" autocomplete="off">
                     <button id="enter-item">Submit</button>
@@ -87,6 +98,6 @@
             </div>
         </div>
     </div>
-    <div id=attributions><button>Attributions</button></div>
+    <footer></div><button id="instructions">Instructions</button><button id="attributions">Attributions</button></footer>
 </body>
 </html>

@@ -105,10 +105,11 @@ h2 {
     display: none;
 }
 
-#attributions button {
+footer > button {
     font-size: 12px;
     color: royalblue;
     background-color: none;
+    margin: 5px 10px;
 }
 
 li {
@@ -116,6 +117,6 @@ li {
     list-style: none;
 }
 
-.attributions-list {
+.attributions-list, .instructions-list {
     display: none;
 }

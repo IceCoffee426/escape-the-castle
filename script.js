@@ -212,6 +212,7 @@ const itemInput = document.getElementById("input-item");
 const enterItem = document.getElementById("enter-item");
 
 const attributionsList = document.getElementById("attributions-list");
+const instructionsList = document.getElementById("instructions-list");
 
 const roomName = document.getElementById("room-name");
 const roomText = document.getElementById("room-description");
@@ -577,6 +578,7 @@ function doBattle(character, spell) {
 
 function alertMessage(message, imageLink) {
     attributionsList.style.display = "none";
+    instructionsList.style.display = "none";
     messageText.innerText = message;
     modalImg["src"] = imageLink;
     messageModal.style.display = "block";
@@ -634,20 +636,28 @@ function gameOver(message) {
 }
 
 const attributions = document.getElementById("attributions");
+const instructions = document.getElementById("instructions");
 
 attributions.onclick = function() {
     messageText.innerText = "";
+    instructionsList.style.display = "none";
     attributionsList.style.display = "block";
     messageModal.style.display = "block";
     modalImg["src"] = "";
     closeButton.focus();
 }
 
+instructions.onclick = function() {
+    messageText.innerText = "";
+    attributionsList.style.display = "none";
+    instructionsList.style.display = "block";
+    messageModal.style.display = "block";
+    modalImg["src"] = "";
+    closeButton.focus();
+}
+
 // List of things to do:
-// - instructions button and modal
-// - make images of things part of the object
-// - make modals cleaner and more interesting with animations
+// - make modals cleaner and animate
 // - have an intro animation
 // - click buttons to take actions
 // - add sounds or music or backgrounds
-// - mobile version
